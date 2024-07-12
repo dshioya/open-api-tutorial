@@ -7,8 +7,12 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
     steps:
-      - uses: actions/checkout@v3.0.0
+      - uses: actions/checkout@v3
 
       - name: Build for Redoc
         run: npx redoc-cli bundle ./openapi.yaml
